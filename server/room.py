@@ -4,10 +4,11 @@ class ROOM:
     # room chat for server
 
     def __init__(self, first_user, rooms):
-        self.room_id = self.create_room_id(rooms)
+        self.room_id = self.generate_room_id(rooms)
         self.users = [first_user]
 
-    def create_room_id(self, rooms):
+    @staticmethod
+    def generate_room_id(rooms):
         # create new id for the room
         room_id = random.randint(100000, 999999)
         while room_id in rooms:

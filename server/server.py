@@ -1,7 +1,7 @@
 from user import USER
 from connect import CONNECT
 from room import ROOM
-from format import *
+import format
 from _thread import *
 
 class SERVER:
@@ -19,39 +19,38 @@ class SERVER:
             self.treatment_of_message(user, data)
         self.exit_user(user)
 
-
     def treatment_of_message(self, user, message):
         # choose what to do with any message
         try:
-            if SPLIT_CHAR in message:
-                message_type, data = message.split(SPLIT_CHAR)
+            if format.SPLIT_TYPE_AND_DATA_CHAR in message:
+                message_type, data = message.split(format.SPLIT_TYPE_AND_DATA_CHAR)
             else:
                 message_type = message
-            if message_type == START_SIGN:
+            if message_type == format.START_CONNECTION_MESSAGE:
                 self.start_user(user, data)
-            elif message_type == CREATE_SIGN:
+            elif message_type == format.CREATE_NEW_ROOM_SIGN:
                 self.create_room(user)
-            elif message_type == SEND_MESSAGE_SIGN:
+            elif message_type == format.SEND_MESSAGE_TO_REST_USERS_IN_ROOM_SIGN:
                 self.pass_message(user, data)
-            elif message_type == JOIN_SIGN:
+            elif message_type == format.JOIN_TO_ROOM_REQUEST_SIGN:
                 self.join_room(user, data)
-            elif message_type == EXIT_SIGN:
+            elif message_type == format.EXIT_SIGN:
                 self.exit_user(user)
         except:
             print('message is unrecogniz')
-            user.send_message(FAILED_MESSAGE)
+            user.send_message(format.FAILED_MESSAGE)
 
     def join_room(self, user, message):
         # joining user to chat room
         if int(message) in self.rooms:
             user.room_id = int(message)
             self.rooms[int(message)].join_room(user)
-            user.send_message(SUCCESS_MESSAGE)
+            user.send_message(format.SUCCESS_MESSAGE)
         else:
-            user.send_message(FAILED_MESSAGE)
+            user.send_message(format.FAILED_MESSAGE)
 
     def pass_message(self, user, message):
-        # pass one message from user to rest of users in his room.
+        # use in user's room pass_message method to pass message to rest of users.
         room_id = user.room_id
         room = self.rooms[room_id]
         room.pass_message(user, message)
@@ -59,11 +58,11 @@ class SERVER:
     def start_user(self, user, user_name):
         # configure user in first connection.
         if user_name in self.users:
-            user.send_message(USERNAME_FAILED_MESSAGE)
+            user.send_message(format.USERNAME_IS_ALREADY_EXISTS_MESSAGE)
         else:
             user.user_name = user_name
             self.users[user_name] = user
-            user.send_message(START_MESSAGE)
+            user.send_message(format.START_CONNECTION_MESSAGE)
 
     def create_room(self, user):
         # create a new room according to user request
@@ -82,7 +81,7 @@ class SERVER:
             del self.rooms[user.room_id]
 
 def main():
-    server = SERVER(PORT)
+    server = SERVER(format.PORT)
     server.connection.start_socket_listening()
     while True:
         # establish connection with client

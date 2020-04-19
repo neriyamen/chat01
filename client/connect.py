@@ -15,8 +15,8 @@ class CONNECT:
         try:
             self.socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
             self.socket.connect((self.host, self.port))
-        except:
-            print('connection error')
+        except ConnectionError as e:
+            print (e)
             exit()
 
 
@@ -24,14 +24,14 @@ class CONNECT:
         # receiver new message from the server.
         try:
             return self.socket.recv(BUFFER_SIZE).decode("utf-8")
-        except:
-            print('connection error')
+        except ConnectionError as e:
+            print (e)
             exit()
 
     def send_message(self, data):
         # send a message to the server
         try:
             self.socket.sendall(data.encode())
-        except:
-            print('connection error')
+        except ConnectionError as e:
+            print (e)
             exit()
