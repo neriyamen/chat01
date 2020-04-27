@@ -1,4 +1,4 @@
-# this page including the format of the messages
+# this page including the messages_format of the messages
 SPLIT_TYPE_AND_DATA_CHAR = '@'
 START_CONNECTION_MESSAGE = 'start'
 JOIN_TO_ROOM_REQUEST_SIGN = 'join'
@@ -7,6 +7,9 @@ CREATE_NEW_ROOM_SIGN = 'create'
 SEND_MESSAGE_TO_REST_USERS_IN_ROOM_SIGN = 'send'
 SUCCESS_MESSAGE = 'success'
 USERNAME_IS_ALREADY_EXISTS_MESSAGE = 'failed_username'
+ROOM_NAME_IS_ALREADY_EXISTS_MESSAGE = 'failed_room_name'
 FAILED_MESSAGE = 'failed'
 START_CONNECTION_MESSAGE = 'start'
+ROOMS_NAMES_REQUEST = 'rooms_names_request'
+NO_ROOMS_EXISTS = 'no_rooms_exists'
 PORT = 3337
